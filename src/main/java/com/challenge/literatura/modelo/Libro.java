@@ -16,6 +16,17 @@ public class Libro {
     private Integer anioLanzamiento;
     private String idioma;
 
+    public Libro(String titulo, String autor, int anionacimiento, Integer anioLanzamiento, String idioma) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anionacimiento = anionacimiento;
+        this.anioLanzamiento = anioLanzamiento;
+        this.idioma = idioma;
+    }
+
+    public Libro() {
+    }
+
     public Integer getAnioLanzamiento() {
         return anioLanzamiento;
     }

@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LiteraturaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LiteraturaApplication.class, args);
+
+		var context = SpringApplication.run(LiteraturaApplication.class, args);
+		ConvertirJson convertirJson = context.getBean(ConvertirJson.class);
+		convertirJson.menu();
 	}
 
 }
