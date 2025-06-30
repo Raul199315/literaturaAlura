@@ -9,7 +9,10 @@ import java.util.Scanner;
 public class ConvertirJson {
     private final ConsumoApi consumoApi;
     private int opcion;
+    private boolean bandera = true;
     private String funcionBuscar = "search=";
+    private String funcionBuscarIdioma = "languages=";
+
     private String nombre;
     private Scanner teclado = new Scanner(System.in);
     private Scanner teclado1 = new Scanner(System.in);
@@ -20,37 +23,73 @@ public class ConvertirJson {
     }
 
     public void menu(){
-        System.out.println("""
+        while (bandera){
+            System.out.println("""
                ********************************************
                 Ingrese una opcion
                
-                1 buscar por nombre del libro
-                2 buscar por autor
-                3
-                4
-                5 Salir
+                1 buscar un libro en la Api
+                2 lista de libros guardados
+                3 lista de autores registrados
+                4 lista de autores vivos en determinado año
+                5 lista de libros por idioma
+                6 Salir
                """);
-        opcion = teclado2.nextInt();
-        switch (opcion){
+            opcion = teclado2.nextInt();
+            switch (opcion){
 
-            case 1:{
-                System.out.println("Ingrese un nombre de un libro");
-                nombre= teclado.nextLine();
-                consumoApi.consumo(nombre,funcionBuscar);
-                break;
-            }
-            case 2:{
-                break;
-            }
-            case 3:{
-                break;
-            }
-            case 4:{
-                break;
-            }
-            case 5:{
-                System.out.println("Saliendo");
-                break;
+                case 1:{
+                    int option = 0;
+                    System.out.println("""
+                            1 buscar por titulo del libro
+                            2 buscar libros de un autor
+                            3 buscar libros por idioma
+                            4 volver al menu anterior
+                                                      """);
+                    option = teclado2.nextInt();
+
+                    if (option == 1){
+                        System.out.println("Ingrese un nombre de un libro");
+                        nombre= teclado.nextLine();
+                        consumoApi.consumo(nombre,funcionBuscar);
+                    } else if (option == 2) {
+                        System.out.println("Ingrese el nombre de un Autor");
+                    } else if (option == 3) {
+                        System.out.println("""
+                                Ingrese
+                                es para Español
+                                fr para Frances
+                                en para Ingles
+                                de Aleman
+                                it Italiano
+                                pt Portuges
+                                """);
+                        nombre = teclado.nextLine();
+                        consumoApi.consumo(nombre,funcionBuscarIdioma);
+                    }
+
+
+                    break;
+                }
+                case 2:{
+                    consumoApi.mostrarLibrosGuardados();
+                    break;
+                }
+                case 3:{
+                    consumoApi.mostrarAutoresGuardados();
+                    break;
+                }
+                case 4:{
+                    break;
+                }
+                case 5:{
+                    System.out.println("dasosug");
+                    break;
+                }
+                case 6:{
+                    System.out.println("Saliendo.........................");
+                    bandera = false;
+                }
             }
         }
     }

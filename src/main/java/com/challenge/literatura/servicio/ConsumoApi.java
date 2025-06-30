@@ -2,11 +2,13 @@ package com.challenge.literatura.servicio;
 
 import com.challenge.literatura.LibroRepository;
 import com.challenge.literatura.modelo.Autor;
+import com.challenge.literatura.modelo.Libro;
 import com.challenge.literatura.modelo.LibroGutendex;
 import com.challenge.literatura.modelo.RespuestaGutendex;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
+import javax.swing.event.ListDataEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -61,6 +63,41 @@ public class ConsumoApi {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    public void mostrarLibrosGuardados(){
+        int contador = 0;
+        List<Libro> libros = libroRepository.findAll();
+        if (libros.isEmpty()){
+            System.out.println("No hay libros guardados");
+        }else{
+            System.out.println("Libros guardados en la base de datos");
+            for(Libro libro : libros){
+                contador++;
+                System.out.println("Libro numero: "+ contador);
+                System.out.println();
+                System.out.println("Titulo: " + libro.getTitulo());
+                System.out.println("Autor: " + libro.getAutor());
+                System.out.println("Año de nacimiento del autor: " + libro.getAnioLanzamiento() );
+                System.out.println("Año de publicacion: ");
+                System.out.println("Idioma: ");
+                System.out.println("------------------------------------------------");
+            }
+        }
+    }
+    public void mostrarAutoresGuardados(){
+        int contador = 0;
+        List<Libro> libros = libroRepository.findAll();
+        if (libros.isEmpty()){
+            System.out.println("No hay libros guardados");
+        }else{
+            System.out.println("Libros guardados en la base de datos");
+            for(Libro libro : libros){
+                contador++;
+                System.out.println("Autor numero: "+ contador);
+                System.out.println("Autor: " + libro.getAutor());
+                System.out.println("------------------------------------------------");
+            }
         }
     }
 }
