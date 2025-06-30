@@ -48,10 +48,13 @@ public class ConsumoApi {
                 for (LibroGutendex lg : librosGuten) {
                     if (!lg.authors.isEmpty()) {
                         Autor autor = lg.authors.get(0);
+                        Integer birth_year = autor.birth_year;
+                        Integer death_year = autor.death_year;
                         String idioma = (lg.languages != null && !lg.languages.isEmpty()) ? lg.languages.get(0) : "desconocido";
-                        Integer anioLanzamiento = lg.download_count; // o null si no sabes qué usar
+                        Integer descargas = lg.download_count; // o null si no sabes qué usar
 
-                        com.challenge.literatura.modelo.Libro libro = new com.challenge.literatura.modelo.Libro(lg.title,autor.name,autor.birth_year,anioLanzamiento,idioma);
+
+                        com.challenge.literatura.modelo.Libro libro = new com.challenge.literatura.modelo.Libro(autor.death_year,autor.birth_year,autor.name,lg.download_count,idioma,lg.title);
                         libroRepository.save(libro);
                         System.out.println("Libro Guardado: " + libro.getTitulo());
                     }
@@ -78,7 +81,7 @@ public class ConsumoApi {
                 System.out.println();
                 System.out.println("Titulo: " + libro.getTitulo());
                 System.out.println("Autor: " + libro.getAutor());
-                System.out.println("Año de nacimiento del autor: " + libro.getAnioLanzamiento() );
+                System.out.println("Año de nacimiento del autor: " + libro.getAnionacimiento() );
                 System.out.println("Año de publicacion: ");
                 System.out.println("Idioma: ");
                 System.out.println("------------------------------------------------");

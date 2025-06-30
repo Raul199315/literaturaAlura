@@ -13,27 +13,19 @@ public class Libro {
     private String titulo;
     private String autor;
     private int anionacimiento;
-    private Integer anioLanzamiento;
+    private Integer anioMuerte;
+    private Integer descargas;
     private String idioma;
 
-    public Libro(String titulo, String autor, int anionacimiento, Integer anioLanzamiento, String idioma) {
-        this.titulo = titulo;
-        this.autor = autor;
+    public Libro(int anioMuerte, int anionacimiento, String autor, Integer descargas,String idioma, String titulo) {
+        this.anioMuerte = anioMuerte;
         this.anionacimiento = anionacimiento;
-        this.anioLanzamiento = anioLanzamiento;
+        this.autor = autor;
+        this.descargas = descargas;
         this.idioma = idioma;
+        this.titulo = titulo;
     }
 
-    public Libro() {
-    }
-
-    public Integer getAnioLanzamiento() {
-        return anioLanzamiento;
-    }
-
-    public void setAnioLanzamiento(Integer anioLanzamiento) {
-        this.anioLanzamiento = anioLanzamiento;
-    }
 
     public int getAnionacimiento() {
         return anionacimiento;
