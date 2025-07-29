@@ -12,12 +12,12 @@ public class Libro {
     private Long id;
     private String titulo;
     private String autor;
-    private int anionacimiento;
+    private Integer anionacimiento;
     private Integer anioMuerte;
     private Integer descargas;
     private String idioma;
 
-    public Libro(int anioMuerte, int anionacimiento, String autor, Integer descargas,String idioma, String titulo) {
+    public Libro(Integer anioMuerte, Integer anionacimiento, String autor, Integer descargas, String idioma, String titulo) {
         this.anioMuerte = anioMuerte;
         this.anionacimiento = anionacimiento;
         this.autor = autor;
@@ -26,6 +26,12 @@ public class Libro {
         this.titulo = titulo;
     }
 
+    public Libro() {
+    }
+
+    public Integer getDescargas() {
+        return descargas;
+    }
 
     public int getAnionacimiento() {
         return anionacimiento;
@@ -65,5 +71,21 @@ public class Libro {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Integer getAnioMuerte() {
+        return anioMuerte;
+    }
+
+    public void setAnioMuerte(Integer anioMuerte) {
+        this.anioMuerte = anioMuerte;
+    }
+
+    public void setAnionacimiento(Integer anionacimiento) {
+        this.anionacimiento = anionacimiento;
+    }
+
+    public void setDescargas(Integer descargas) {
+        this.descargas = descargas;
     }
 }

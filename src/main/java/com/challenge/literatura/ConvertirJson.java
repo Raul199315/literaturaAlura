@@ -29,7 +29,7 @@ public class ConvertirJson {
                 Ingrese una opcion
                
                 1 buscar un libro en la Api
-                2 lista de libros guardados
+                2 lista de libros registrados
                 3 lista de autores registrados
                 4 lista de autores vivos en determinado año
                 5 lista de libros por idioma
@@ -41,10 +41,9 @@ public class ConvertirJson {
                 case 1:{
                     int option = 0;
                     System.out.println("""
-                            1 buscar por titulo del libro
-                            2 buscar libros de un autor
-                            3 buscar libros por idioma
-                            4 volver al menu anterior
+                            1 buscar por titulo del libro o autor
+                            2 buscar libros por idioma
+                            3 volver al menu anterior
                                                       """);
                     option = teclado2.nextInt();
 
@@ -53,8 +52,6 @@ public class ConvertirJson {
                         nombre= teclado.nextLine();
                         consumoApi.consumo(nombre,funcionBuscar);
                     } else if (option == 2) {
-                        System.out.println("Ingrese el nombre de un Autor");
-                    } else if (option == 3) {
                         System.out.println("""
                                 Ingrese
                                 es para Español
@@ -80,6 +77,10 @@ public class ConvertirJson {
                     break;
                 }
                 case 4:{
+                    System.out.println("Ingrese el año deseado");
+                    opcion = teclado1.nextInt();
+                    consumoApi.mostrarAutoresVivosEn(opcion);
+
                     break;
                 }
                 case 5:{
