@@ -45,10 +45,11 @@ public class ConvertirJson {
             switch (opcion) {
                 case 1 -> buscarLibro();
                 case 2 -> consumoApi.mostrarLibrosGuardados();
-                case 3 -> consumoApi.mostrarAutoresGuardados();
-                case 4 -> consumoApi.pedirYMostrarAutoresVivosDesdeConsola(); // ✅ Integración directa
-                case 5 -> mostrarLibrosPorIdioma();
-                case 6 -> {
+                case 3 -> consumoApi.mostrarAutoresConCantidadDeLibrosYTitulos();
+                case 4 -> consumoApi.pedirYMostrarAutoresVivosDesdeConsola();
+                case 5 -> consumoApi.pedirYMostrarLibrosPorIdioma();
+                case 6 ->
+                {
                     System.out.println("👋 Saliendo... ¡Gracias por usar el sistema!");
                     bandera = false;
                 }

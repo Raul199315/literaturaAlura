@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -174,7 +175,72 @@ public class ConsumoApi {
         System.out.println("--------------------------------------------");
     }
 
+    public void mostrarAutoresConCantidadDeLibrosYTitulos() {
+        Map<String, List<Libro>> librosPorAutor = libroRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Libro::getAutor));
 
+        if (librosPorAutor.isEmpty()) {
+            System.out.println("⚠️ No hay autores registrados.");
+        } else {
+            System.out.println("\n🧾 Autores con cantidad de libros y sus títulos:");
+            System.out.println("==============================================");
+
+            int contador = 1;
+            for (Map.Entry<String, List<Libro>> entry : librosPorAutor.entrySet()) {
+                String autor = entry.getKey();
+                List<Libro> libros = entry.getValue();
+
+                System.out.println("👤 Autor #" + contador);
+                System.out.println("🖋️ Nombre     : " + autor);
+                System.out.println("📚 Cantidad   : " + libros.size());
+                System.out.println("📘 Títulos    :");
+
+                for (Libro libro : libros) {
+                    System.out.println("   - " + libro.getTitulo());
+                }
+
+                System.out.println("----------------------------------------------");
+                contador++;
+            }
+        }
+    }
+    public void pedirYMostrarLibrosPorIdioma() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\n🌐 Ingresa el idioma que deseas consultar: ");
+        System.out.println("""
+                         Idiomas disponibles:
+                        es - Español
+                        en - Inglés
+                        fr - Francés
+                        de - Alemán
+                        it - Italiano
+                        pt - Portugués
+                        """);
+        String idiomaElegido = scanner.nextLine().trim().toLowerCase();
+
+        List<Libro> librosPorIdioma = libroRepository.findAll().stream()
+                .filter(libro -> libro.getIdioma() != null &&
+                        libro.getIdioma().toLowerCase().contains(idiomaElegido))
+                .collect(Collectors.toList());
+
+        System.out.println("\n📚 Libros encontrados en idioma: " + idiomaElegido);
+        System.out.println("==============================================");
+
+        if (librosPorIdioma.isEmpty()) {
+            System.out.println("⚠️ No se encontraron libros para ese idioma.");
+        } else {
+            int contador = 1;
+            for (Libro libro : librosPorIdioma) {
+                System.out.println("🔖 Libro #" + contador);
+                System.out.println("📘 Título    : " + libro.getTitulo());
+                System.out.println("🖋️ Autor     : " + libro.getAutor());
+                System.out.println("📥 Descargas : " + libro.getDescargas());
+                System.out.println("🌐 Idioma    : " + libro.getIdioma());
+                System.out.println("----------------------------------------------");
+                contador++;
+            }
+        }
+    }
 
 
 }
