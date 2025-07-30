@@ -8,13 +8,15 @@ import com.challenge.literatura.modelo.RespuestaGutendex;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
-import javax.swing.event.ListDataEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ConsumoApi {
@@ -78,7 +80,6 @@ public class ConsumoApi {
         }
     }
 
-    // Método auxiliar para leer respuesta
     private String leerContenido(HttpURLConnection con) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         StringBuilder contenido = new StringBuilder();
@@ -123,34 +124,57 @@ public class ConsumoApi {
             }
         }
     }
-    public void mostrarAutoresVivosEn(int año) {
-        List<Libro> libros = libroRepository.findAll();
-        boolean encontrados = false;
+    public void mostrarAutoresVivosEn(int anio) {
+        List<Libro> autoresVivos = libroRepository.findAll().stream()
+                .filter(libro -> {
+                    Integer nacimiento = libro.getAnionacimiento();
+                    Integer muerte = libro.getAnioMuerte();
+                    return nacimiento != null && anio >= nacimiento && (muerte == null || anio < muerte);
+                })
+                .collect(Collectors.toList());
+
+        System.out.println("\n🗓️ Autores vivos en el año " + anio + ":");
+        System.out.println("============================================");
+
+        if (autoresVivos.isEmpty()) {
+            System.out.println("⚠️ No se encontraron autores vivos.");
+            return;
+        }
+
         int contador = 0;
+        for (Libro libro : autoresVivos) {
+            contador++;
+            imprimirAutorVivo(libro, contador);
+        }
+    }
 
-        System.out.println("Autores vivos en el año " + año + ":");
-        System.out.println("------------------------------------------------");
+    public void pedirYMostrarAutoresVivosDesdeConsola() {
+        Scanner scanner = new Scanner(System.in);
+        Integer anio = null;
 
-        for (Libro libro : libros) {
-            Integer nacimiento = libro.getAnionacimiento();
-            Integer muerte = libro.getAnioMuerte();
+        while (anio == null) {
+            System.out.print("\n📅 Ingresa el año (solo números): ");
+            String entrada = scanner.nextLine().trim();
 
-            boolean vivo = nacimiento != null && año >= nacimiento &&
-                    (muerte == null || año < muerte);
-
-            if (vivo) {
-                encontrados = true;
-                contador++;
-                System.out.printf("👤 Autor #%d: %s\n", contador, libro.getAutor());
-                System.out.println("📘 Libro: " + libro.getTitulo());
-                System.out.println("🌐 Idioma: " + libro.getIdioma());
-                System.out.println("🎂 Nació: " + nacimiento + " | 💀 Murió: " + (muerte != null ? muerte : "aún vivo"));
-                System.out.println("------------------------------------------------");
+            try {
+                anio = Integer.parseInt(entrada);
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Año inválido. Intenta nuevamente.");
             }
         }
 
-        if (!encontrados) {
-            System.out.println("⚠️ No se encontraron autores vivos en el año " + año);
-        }
+        mostrarAutoresVivosEn(anio);
     }
+    private void imprimirAutorVivo(Libro libro, int contador) {
+        System.out.printf("👤 Autor #%d: %s\n", contador, libro.getAutor());
+        System.out.println("📘 Título    : " + libro.getTitulo());
+        System.out.println("🌐 Idioma    : " + libro.getIdioma());
+        System.out.println("🎂 Nació     : " + libro.getAnionacimiento());
+        System.out.println("💀 Falleció  : " + (libro.getAnioMuerte() != null ? libro.getAnioMuerte() : "aún vivo"));
+        System.out.println("--------------------------------------------");
+    }
+
+
+
+
 }

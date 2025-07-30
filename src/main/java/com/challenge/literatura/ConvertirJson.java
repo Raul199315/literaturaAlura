@@ -8,90 +8,99 @@ import java.util.Scanner;
 @Component
 public class ConvertirJson {
     private final ConsumoApi consumoApi;
-    private int opcion;
     private boolean bandera = true;
-    private String funcionBuscar = "search=";
-    private String funcionBuscarIdioma = "languages=";
+    private final String funcionBuscar = "search=";
+    private final String funcionBuscarIdioma = "languages=";
 
-    private String nombre;
-    private Scanner teclado = new Scanner(System.in);
-    private Scanner teclado1 = new Scanner(System.in);
-    private Scanner teclado2 = new Scanner(System.in);
+    private final Scanner teclado = new Scanner(System.in);
 
     public ConvertirJson(ConsumoApi consumoApi) {
         this.consumoApi = consumoApi;
     }
 
-    public void menu(){
-        while (bandera){
+    public void menu() {
+        while (bandera) {
             System.out.println("""
                ********************************************
-                Ingrese una opcion
+                MENÚ PRINCIPAL
                
-                1 buscar un libro en la Api
-                2 lista de libros registrados
-                3 lista de autores registrados
-                4 lista de autores vivos en determinado año
-                5 lista de libros por idioma
-                6 Salir
+               1️ Buscar un libro en la API
+               2️ Lista de libros registrados
+               3 Lista de autores registrados
+               4️ Autores vivos en determinado año
+               5️ Lista de libros por idioma
+               6️ Salir
                """);
-            opcion = teclado2.nextInt();
-            switch (opcion){
 
-                case 1:{
-                    int option = 0;
-                    System.out.println("""
-                            1 buscar por titulo del libro o autor
-                            2 buscar libros por idioma
-                            3 volver al menu anterior
-                                                      """);
-                    option = teclado2.nextInt();
+            String entrada = teclado.nextLine().trim();
+            int opcion = -1;
 
-                    if (option == 1){
-                        System.out.println("Ingrese un nombre de un libro");
-                        nombre= teclado.nextLine();
-                        consumoApi.consumo(nombre,funcionBuscar);
-                    } else if (option == 2) {
-                        System.out.println("""
-                                Ingrese
-                                es para Español
-                                fr para Frances
-                                en para Ingles
-                                de Aleman
-                                it Italiano
-                                pt Portuges
-                                """);
-                        nombre = teclado.nextLine();
-                        consumoApi.consumo(nombre,funcionBuscarIdioma);
-                    }
+            try {
+                opcion = Integer.parseInt(entrada);
+            } catch (NumberFormatException e) {
+                System.out.println(" Opción inválida. Por favor ingresa un número.");
+                continue;
+            }
 
-
-                    break;
-                }
-                case 2:{
-                    consumoApi.mostrarLibrosGuardados();
-                    break;
-                }
-                case 3:{
-                    consumoApi.mostrarAutoresGuardados();
-                    break;
-                }
-                case 4:{
-                    System.out.println("Ingrese el año deseado");
-                    opcion = teclado1.nextInt();
-                    consumoApi.mostrarAutoresVivosEn(opcion);
-
-                    break;
-                }
-                case 5:{
-                    System.out.println("dasosug");
-                    break;
-                }
-                case 6:{
-                    System.out.println("Saliendo.........................");
+            switch (opcion) {
+                case 1 -> buscarLibro();
+                case 2 -> consumoApi.mostrarLibrosGuardados();
+                case 3 -> consumoApi.mostrarAutoresGuardados();
+                case 4 -> consumoApi.pedirYMostrarAutoresVivosDesdeConsola(); // ✅ Integración directa
+                case 5 -> mostrarLibrosPorIdioma();
+                case 6 -> {
+                    System.out.println("👋 Saliendo... ¡Gracias por usar el sistema!");
                     bandera = false;
                 }
+                default -> System.out.println("⚠️ Opción no reconocida.");
             }
         }
+    }
+
+    private void buscarLibro() {
+        System.out.println("""
+                🔍 Buscar por:
+                1️ Título del libro o nombre de autor
+                2️ Idioma del libro
+                3️ Volver al menú anterior
+                """);
+
+        String entrada = teclado.nextLine().trim();
+        int subOpcion = -1;
+
+        try {
+            subOpcion = Integer.parseInt(entrada);
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Entrada inválida.");
+            return;
+        }
+
+        switch (subOpcion) {
+            case 1 -> {
+                System.out.print(" Ingresa el título o autor: ");
+                String nombre = teclado.nextLine();
+                consumoApi.consumo(nombre, funcionBuscar);
+            }
+            case 2 -> {
+                System.out.println("""
+                         Idiomas disponibles:
+                        es - Español
+                        en - Inglés
+                        fr - Francés
+                        de - Alemán
+                        it - Italiano
+                        pt - Portugués
+                        """);
+                System.out.print("Ingresa el código del idioma: ");
+                String idioma = teclado.nextLine();
+                consumoApi.consumo(idioma, funcionBuscarIdioma);
+            }
+            case 3 -> System.out.println("↩️ Volviendo al menú principal...");
+            default -> System.out.println("⚠️ Opción no válida.");
+        }
+    }
+
+    private void mostrarLibrosPorIdioma() {
+        System.out.println("⚠️ Esta opción aún no está implementada.");
     }
 }
