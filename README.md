@@ -6,7 +6,7 @@ es una app que trabajara con la API Gutendex que es una base de datos de libros 
 
 la app tendra 5 opciones
 
-1 Buscar un Libro
+1 Buscar un Libro   "dentro de esta funcion hay otras funcione para buscar por idioma o titulo"
 2 buscar libro por nombre de autor 
 3 buscar libros por Idioma
 4 buscar Libros de autores vivos en un rango de Años
